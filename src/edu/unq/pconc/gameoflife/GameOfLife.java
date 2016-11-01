@@ -15,6 +15,7 @@ import edu.unq.pconc.gameoflife.solution.GameOfLifeGrid;
  * This is the heart of the program. It initializes everything and put it together.
  * @author Edwin Martin
  */
+@SuppressWarnings("serial")
 public class GameOfLife extends Applet implements Runnable, GameOfLifeControlsListener {
   protected CellGridCanvas gameOfLifeCanvas;
   protected GameOfLifeGrid gameOfLifeGrid;
