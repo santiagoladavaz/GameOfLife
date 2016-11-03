@@ -1,6 +1,9 @@
 package edu.unq.pconc.gameoflife.solution;
 import java.awt.Dimension;
+
+
 import edu.unq.pconc.gameoflife.CellGrid;
+import edu.unq.pconc.gameoflife.solution.Worker;
 
 
 public class GameOfLifeGrid implements CellGrid {
@@ -10,6 +13,7 @@ public class GameOfLifeGrid implements CellGrid {
 	int columnas;
 	int generaciones;
 	int threads;
+	int finalizaron = 0;
 	
 
 
@@ -66,44 +70,44 @@ public class GameOfLifeGrid implements CellGrid {
 	public int getGenerations() {
 		return this.generaciones;
 	}
-
-	private boolean [][] copyTablero() {
-		boolean [][] copy = new boolean [filas][columnas];
-		for(int i = 0; i<filas;i++){
-			for(int j = 0; j<columnas;j++){
-				copy[i][j]=tablero[i][j];
-			}
+	
+	public synchronized void workerTermino() {
+		this.finalizaron ++;
+		if (this.finalizaron == this.threads) {
+			this.notifyAll();
 		}
-		return copy;
 	}
+
+	
 	
 	@Override
-	public synchronized void next() {
-		boolean [][] copy = copyTablero();
-		for(int i = 0; i<filas;i++){
-			for(int j = 0; j<columnas;j++){
-				tablero[i][j]=evolucionar(copy, i,j);
-			}
+	public  synchronized void next() {
+		int posicionInicial = 0;
+		int threads = this.threads;
+		
+		
+		int cantColumnas = (int) Math.floor(this.columnas / threads);
+		int dif = this.columnas - cantColumnas * threads;
+		Worker w = null; 
+		
+		for(int i = 0; i<this.threads; i++){
+			
+			int extra = (dif > 0) ? 1 : 0;
+			w = new Worker(posicionInicial,this,cantColumnas + extra);
+			w.start();
+			posicionInicial = posicionInicial + cantColumnas + extra; 
 		}
+		
+		while(this.finalizaron < this.threads)
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		
 		this.generaciones++;
 	}
 	
-	private boolean evolucionar(boolean [][] copy, int f, int c)
-	{
-		int alive = 0;
-		
-		for(int i = f-1; i <= f+1; i++)
-			for(int j = c-1; j <= c+1; j++)
-				if(i >= 0 && i < this.filas && j >= 0 && j < this.columnas && !(i == f && j == c))
-					if(copy[i][j])
-						alive++;
-		
-		if(copy[f][c]){
-			return (alive == 2 || alive == 3 );
-		}
-		else{
-			return (alive == 3);
-		}
-	}
+	
 	
 }
