@@ -87,15 +87,22 @@ public class GameOfLifeGrid implements CellGrid {
 		
 		
 		int cantColumnas = (int) Math.floor(this.columnas / threads);
+		int varAuxCantColumFija = cantColumnas;
 		int dif = this.columnas - cantColumnas * threads;
 		Worker w = null; 
 		
 		for(int i = 0; i<this.threads; i++){
 			
 			int extra = (dif > 0) ? 1 : 0;
-			w = new Worker(posicionInicial,this,cantColumnas + extra);
+			
+			int varAuxCantColum = (i == this.threads-1) ? cantColumnas + extra : cantColumnas;
+			int varAuxPosIni = (i == this.threads-1) ? posicionInicial + extra : posicionInicial;
+			
+			
+			w = new Worker(varAuxPosIni,this,varAuxCantColum,varAuxCantColumFija);
 			w.start();
-			posicionInicial = posicionInicial + cantColumnas + extra; 
+			
+			posicionInicial = posicionInicial + varAuxCantColum; 
 		}
 		
 		while(this.finalizaron < this.threads)
