@@ -21,7 +21,7 @@ public class Worker extends Thread{
 		boolean [][] copy = new boolean [filas][col];
 		for(int i = 0; i<filas;i++){
 			for(int j = 0; j<col;j++){
-				copy[i][j]=gof.tablero[i][j];
+				copy[i][j]=gof.tableroAux[i][j];
 			}
 		}
 		return copy;
@@ -32,10 +32,8 @@ public class Worker extends Thread{
 	
 	public synchronized void run(){
 		
-		//cambiar cuando la cantidad de columnas es impar revisar
 		boolean [][] copy = copyTablero();
 		for(int i = 0; i<gof.filas;i++){
-
 			for(int j = this.posicionInicial; j < cantColumnasFija+this.posicionInicial;j++){
 				gof.tablero[i][j]=evolucionar(copy, i,j);
 			}

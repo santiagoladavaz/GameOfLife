@@ -9,6 +9,7 @@ import edu.unq.pconc.gameoflife.solution.Worker;
 public class GameOfLifeGrid implements CellGrid {
 
 	boolean [][] tablero;
+	boolean [][] tableroAux;
 	int filas;
 	int columnas;
 	int generaciones;
@@ -59,6 +60,7 @@ public class GameOfLifeGrid implements CellGrid {
 			}
 		}
 		this.generaciones = 0;
+		this.finalizaron = 0;
 	}
 
 	@Override
@@ -74,16 +76,30 @@ public class GameOfLifeGrid implements CellGrid {
 	public synchronized void workerTermino() {
 		this.finalizaron ++;
 		if (this.finalizaron == this.threads) {
+			
+			
 			this.notifyAll();
 		}
 	}
 
-	
+	private boolean [][] copyTableroOriginal() {
+		int filas = this.filas;
+		int col = this.columnas;
+		boolean [][] copy = new boolean [filas][col];
+		for(int i = 0; i<filas;i++){
+			for(int j = 0; j<col;j++){
+				copy[i][j]=this.tablero[i][j];
+			}
+		}
+		return copy;
+	}
 	
 	@Override
 	public  synchronized void next() {
+		this.finalizaron = 0;
 		int posicionInicial = 0;
 		int threads = this.threads;
+		this.tableroAux = copyTableroOriginal();
 		
 		
 		int cantColumnas = (int) Math.floor(this.columnas / threads);
@@ -93,10 +109,8 @@ public class GameOfLifeGrid implements CellGrid {
 		
 		for(int i = 0; i<this.threads; i++){
 			
-			int extra = (dif > 0) ? 1 : 0;
-			
-			int varAuxCantColum = (i == this.threads-1) ? cantColumnas + extra : cantColumnas;
-			int varAuxPosIni = (i == this.threads-1) ? posicionInicial + extra : posicionInicial;
+			int varAuxCantColum = (i == this.threads-1) ? cantColumnas + dif : cantColumnas;
+			int varAuxPosIni = (i == this.threads-1) ? posicionInicial + dif : posicionInicial;
 			
 			
 			w = new Worker(varAuxPosIni,this,varAuxCantColum,varAuxCantColumFija);
