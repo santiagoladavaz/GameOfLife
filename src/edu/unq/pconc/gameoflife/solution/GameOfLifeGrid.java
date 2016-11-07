@@ -8,13 +8,13 @@ import edu.unq.pconc.gameoflife.solution.Worker;
 
 public class GameOfLifeGrid implements CellGrid {
 
-	boolean [][] tablero;
-	boolean [][] tableroAux;
-	int filas;
-	int columnas;
-	int generaciones;
-	int threads;
-	int finalizaron = 0;
+	public boolean [][] tablero;
+	public boolean [][] tableroAux;
+	public int filas;
+	public int columnas;
+	public int generaciones;
+	public int threads;
+	public int finalizaron = 0;
 	
 
 

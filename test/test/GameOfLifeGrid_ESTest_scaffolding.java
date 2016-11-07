@@ -4,7 +4,7 @@
  * Mon Nov 07 02:05:59 ART 2016
  */
 
-package edu.unq.pconc.gameoflife.solution;
+package test;
 
 import org.evosuite.runtime.annotation.EvoSuiteClassExclude;
 import org.junit.BeforeClass;

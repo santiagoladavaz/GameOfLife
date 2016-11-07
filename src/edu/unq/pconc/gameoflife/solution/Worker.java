@@ -3,10 +3,10 @@ package edu.unq.pconc.gameoflife.solution;
 public class Worker extends Thread{
 	
 	
-	int posicionInicial;
-	int cantColumnas;
-	int cantColumnasFija;
-	GameOfLifeGrid gof;
+	public int posicionInicial;
+	public int cantColumnas;
+	public int cantColumnasFija;
+	public GameOfLifeGrid gof;
 	
 	public Worker(int posicionInicial, GameOfLifeGrid gof,int cantColumnas, int cantColumnasFija) {
 		this.posicionInicial = posicionInicial;

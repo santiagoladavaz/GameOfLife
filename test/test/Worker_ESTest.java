@@ -3,7 +3,7 @@
  * Mon Nov 07 02:09:48 ART 2016
  */
 
-package edu.unq.pconc.gameoflife.solution;
+package test;
 
 import static org.evosuite.runtime.EvoAssertions.assertThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -15,6 +15,9 @@ import org.evosuite.runtime.EvoRunnerParameters;
 import org.evosuite.runtime.TooManyResourcesException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import edu.unq.pconc.gameoflife.solution.GameOfLifeGrid;
+import edu.unq.pconc.gameoflife.solution.Worker;
 
 @RunWith(EvoRunner.class) @EvoRunnerParameters(useVNET = true) 
 public class Worker_ESTest extends Worker_ESTest_scaffolding {
@@ -337,9 +340,13 @@ public class Worker_ESTest extends Worker_ESTest_scaffolding {
       int int3 = worker0.cantColumnasFija;
       assertEquals((-264), int3);
   }
+  
+  
 
   @Test
   public void test12()  throws Throwable  {
+	  
+	  
       GameOfLifeGrid gameOfLifeGrid0 = new GameOfLifeGrid();
       int int0 = 0;
       gameOfLifeGrid0.resize(2336, 3);
@@ -361,4 +368,7 @@ public class Worker_ESTest extends Worker_ESTest_scaffolding {
          //
       }
   }
+  
+  
+  
 }

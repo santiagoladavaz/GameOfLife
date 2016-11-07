@@ -3,17 +3,20 @@
  * Mon Nov 07 02:05:59 ART 2016
  */
 
-package edu.unq.pconc.gameoflife.solution;
+package test;
 
 import static org.evosuite.runtime.EvoAssertions.assertThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.evosuite.runtime.EvoRunner;
 import org.evosuite.runtime.EvoRunnerParameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import edu.unq.pconc.gameoflife.solution.GameOfLifeGrid;
 
 @RunWith(EvoRunner.class) @EvoRunnerParameters(useVNET = true) 
 public class GameOfLifeGrid_ESTest extends GameOfLifeGrid_ESTest_scaffolding {
@@ -68,6 +71,7 @@ public class GameOfLifeGrid_ESTest extends GameOfLifeGrid_ESTest_scaffolding {
       boolean[] booleanArray5 = new boolean[0];
       booleanArray0[4] = booleanArray5;
       gameOfLifeGrid0.tableroAux = booleanArray0;
+      
   }
 
   @Test
@@ -1062,4 +1066,29 @@ public class GameOfLifeGrid_ESTest extends GameOfLifeGrid_ESTest_scaffolding {
          //
       }
   }
+  
+  
+  @Test
+  public void testEvolucionar(){
+	  GameOfLifeGrid gof = new GameOfLifeGrid();
+	  gof.resize(4,4);
+	  gof.resize(5,5);
+	  gof.setCell(0, 0, true);
+	  gof.setCell(1, 0, true);
+	  gof.setCell(2, 0, true);
+	  gof.setThreads(2);
+	  gof.next();
+	  
+	 
+	  assertTrue(gof.generaciones == 1);
+	  assertTrue(gof.columnas == 5);
+	  assertTrue(gof.filas == 5);
+	  
+	  gof.clear();
+	  
+	  assertTrue(gof.generaciones == 0);
+	  
+	  
+	 
+	}
 }
